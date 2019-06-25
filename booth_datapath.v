@@ -10,7 +10,7 @@ module booth_datapath(LdA,LdQ,LdM,clrA,clrQ,clrff,sftA,sftQ,data_in,addsub,qm1,c
 	assign q0 = Q[0];
 	
 	PIPO MR(M,data_in,LdM,clk,reset);
-  shiftreg AR(A,A[15],Z,LdA,clrA,sftA,clk,reset);
+        shiftreg AR(A,A[15],Z,LdA,clrA,sftA,clk,reset);
 	shiftreg QR(Q,A[0],data_in,LdQ,clrQ,sftQ,clk,reset);
 	dff QM1(qm1,Q[0],clrff,clk,reset);
 	ALU AS(Z,A,M,addsub);
@@ -25,21 +25,21 @@ module PIPO(dout,din,ld,clk,reset);
 	always@(posedge clk)
 	begin
 	  if(reset) dout <= 0;
-		if(ld) dout <= din;
+	  else if(ld) dout <= din;
 	end
 endmodule
 
 module shiftreg(dout,s_in,din,ld,clr,sft,clk,reset);
-  input [15:0] din;
+        input [15:0] din;
 	input s_in,ld,clr,sft,clk,reset;
 	output reg [15:0] dout;
 	
 	always@(posedge clk)
 	begin
 	  if(reset) dout <= 0;
-		else if(clr) dout <= 0;
-		else if(ld) dout <= din;
-		else if(sft) dout <= {s_in,dout[15:1]};
+	  else if(clr) dout <= 0;
+	  else if(ld) dout <= din;
+	  else if(sft) dout <= {s_in,dout[15:1]};
 	end
 endmodule
 
@@ -50,8 +50,8 @@ module dff(dout,s_in,clr,clk,reset);
 	always@(posedge clk)
 	begin
 	  if(reset) dout <= 0;
-		else if(clr) dout <= 0;
-		else dout <= s_in;
+	  else if(clr) dout <= 0;
+	  else dout <= s_in;
 	end
 endmodule
 
@@ -62,8 +62,8 @@ module ALU(dout,in1,in2,addsub);
 	
 	always@(*)
 	begin
-		if(addsub ==1) dout = in1+in2;
-		else dout = in1-in2;
+	  if(addsub ==1) dout = in1+in2;
+	  else dout = in1-in2;
 	end
 endmodule
 
@@ -74,7 +74,7 @@ module counter(cnt,dec,ld,clk,reset);
 	always@(posedge clk)
 	begin
 	  if(reset) cnt <= 0;
-		else if(ld) cnt <= 5'b10000;
-		else if(dec) cnt <= cnt-1;
+	  else if(ld) cnt <= 5'b10000;
+	  else if(dec) cnt <= cnt-1;
 	end
 endmodule
